@@ -29,6 +29,7 @@
 #include "config.h"
 
 #define SIMPLE_UNIT_TEMPERATURE 0
+#define SIMPLE_UNIT_RESISTANCE 1
 
 // value in 25*°C
 /*
@@ -58,35 +59,67 @@ const int16_t pt_values[329] = {-6172, -6101, -6030, -5958, -5887, -5816, -5745,
 
 const SimpleMessageProperty smp[] = {
 	{SIMPLE_UNIT_TEMPERATURE, SIMPLE_TRANSFER_VALUE, SIMPLE_DIRECTION_GET}, // TYPE_GET_TEMPERATURE
+	{SIMPLE_UNIT_RESISTANCE, SIMPLE_TRANSFER_VALUE, SIMPLE_DIRECTION_GET}, // TYPE_GET_RESISTANCE
 	{SIMPLE_UNIT_TEMPERATURE, SIMPLE_TRANSFER_PERIOD, SIMPLE_DIRECTION_SET}, // TYPE_SET_TEMPERATURE_CALLBACK_PERIOD
 	{SIMPLE_UNIT_TEMPERATURE, SIMPLE_TRANSFER_PERIOD, SIMPLE_DIRECTION_GET}, // TYPE_GET_TEMPERATURE_CALLBACK_PERIOD
+	{SIMPLE_UNIT_RESISTANCE, SIMPLE_TRANSFER_PERIOD, SIMPLE_DIRECTION_SET}, // TYPE_SET_RESISTANCE_CALLBACK_PERIOD
+	{SIMPLE_UNIT_RESISTANCE, SIMPLE_TRANSFER_PERIOD, SIMPLE_DIRECTION_GET}, // TYPE_GET_RESISTANCE_CALLBACK_PERIOD
 	{SIMPLE_UNIT_TEMPERATURE, SIMPLE_TRANSFER_THRESHOLD, SIMPLE_DIRECTION_SET}, // TYPE_SET_TEMPERATURE_CALLBACK_THRESHOLD
 	{SIMPLE_UNIT_TEMPERATURE, SIMPLE_TRANSFER_THRESHOLD, SIMPLE_DIRECTION_GET}, // TYPE_GET_TEMPERATURE_CALLBACK_THRESHOLD
+	{SIMPLE_UNIT_RESISTANCE, SIMPLE_TRANSFER_THRESHOLD, SIMPLE_DIRECTION_SET}, // TYPE_SET_RESISTANCE_CALLBACK_THRESHOLD
+	{SIMPLE_UNIT_RESISTANCE, SIMPLE_TRANSFER_THRESHOLD, SIMPLE_DIRECTION_GET}, // TYPE_GET_RESISTANCE_CALLBACK_THRESHOLD
 	{0, SIMPLE_TRANSFER_DEBOUNCE, SIMPLE_DIRECTION_SET}, // TYPE_SET_DEBOUNCE_PERIOD
 	{0, SIMPLE_TRANSFER_DEBOUNCE, SIMPLE_DIRECTION_GET}, // TYPE_GET_DEBOUNCE_PERIOD
-	/* TODO:
-	* fault getter and callback
-	* frequency setter (50/60hz)
-	 * disable continuous mode before change
-	* moving average instead of simple average
-	*/
 };
 
 const SimpleUnitProperty sup[] = {
 	{make_temperature, SIMPLE_SIGNEDNESS_UINT, FID_TEMPERATURE, FID_TEMPERATURE_REACHED, SIMPLE_UNIT_TEMPERATURE}, // temperature
+	{make_resistance, SIMPLE_SIGNEDNESS_UINT, FID_RESISTANCE, FID_RESISTANCE_REACHED, SIMPLE_UNIT_RESISTANCE}, // resistance
 };
 
 const uint8_t smp_length = sizeof(smp);
 
 void invocation(const ComType com, const uint8_t *data) {
-	simple_invocation(com, data);
+	switch(((SimpleStandardMessage*)data)->header.fid) {
+		case FID_SET_NOISE_REJECTION_FILTER: {
+			set_noise_rejection_filter(com, (SetNoiseRejectionFilter*)data);
+			return;
+		}
 
-	if(((MessageHeader*)data)->fid > FID_LAST) {
+		case FID_GET_NOISE_REJECTION_FILTER: {
+			get_noise_rejection_filter(com, (GetNoiseRejectionFilter*)data);
+			return;
+		}
+
+		case FID_IS_SENSOR_CONNECTED: {
+			is_sensor_connected(com, (IsSensorConnected*)data);
+			return;
+		}
+
+		case FID_SET_WIRE_MODE: {
+			set_wire_mode(com, (SetWireMode*)data);
+			return;
+		}
+
+		case FID_GET_WIRE_MODE: {
+			get_wire_mode(com, (GetWireMode*)data);
+			return;
+		}
+
+		default: {
+			simple_invocation(com, data);
+			break;
+		}
+	}
+
+	if(((SimpleStandardMessage*)data)->header.fid > FID_LAST) {
 		BA->com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_NOT_SUPPORTED, com);
 	}
 }
 
 void constructor(void) {
+	_Static_assert(sizeof(BrickContext) <= BRICKLET_CONTEXT_MAX_SIZE, "BrickContext too big");
+
 	SPI_CS.type = PIO_OUTPUT_1;
 	SPI_CS.attribute = PIO_DEFAULT;
 	BA->PIO_Configure(&SPI_CS, 1);
@@ -103,8 +136,15 @@ void constructor(void) {
 	SPI_SDO.attribute = PIO_DEFAULT;
 	BA->PIO_Configure(&SPI_SDO, 1);
 
-	BC->temperature_counter = 0;
-	BC->temperature_avg = 0;
+	BC->moving_average_sum = 0;
+	BC->moving_average_tick = 0;
+	for(uint8_t i = 0; i < NUM_MOVING_AVERAGE; i++) {
+		BC->moving_average[i] = 0;
+	}
+
+	BC->new_resistance = false;
+	BC->noise_filter = 0;
+	BC->wire_mode = 1;
 
 	simple_constructor();
 
@@ -181,7 +221,7 @@ void read_register(const uint8_t reg, uint8_t *data, const uint8_t length) {
 	SPI_CS.pio->PIO_SODR = SPI_CS.mask;
 }
 
-int32_t make_temperature(const int32_t value) {
+int32_t make_resistance(const int32_t value) {
 	if((BC->tick % 20) != 0) {
 		return value;
 	}
@@ -198,25 +238,101 @@ int32_t make_temperature(const int32_t value) {
 	}
 
 	resistance >>= 1;
+	if(resistance != value) {
+		BC->new_resistance = true;
+	}
+
+	return resistance;
+}
+
+int32_t make_temperature(const int32_t value) {
+	if(!BC->new_resistance) {
+		return value;
+	}
+
+	BC->new_resistance = false;
+
+	const uint16_t resistance = BC->value[SIMPLE_UNIT_RESISTANCE];
 
 	int16_t rest = resistance % 100;
 	int32_t temperature = (pt_values[resistance/100  ]*(100-rest) +
 	                       pt_values[resistance/100+1]*(rest    ))/25;
 
+	BC->moving_average_sum = BC->moving_average_sum -
+	                         BC->moving_average[BC->moving_average_tick] +
+	                         temperature;
 
-	BC->temperature_avg += temperature;
-	BC->temperature_counter++;
-	if(BC->temperature_counter >= 50) {
-		BA->printf("value: %d (fault: %d) -> %d\n\r", resistance, BC->fault, temperature);
-		int32_t temperature_to_return = BC->temperature_avg/50;
-		BC->temperature_avg = 0;
-		BC->temperature_counter = 0;
-		return temperature_to_return;
-	}
+	BC->moving_average[BC->moving_average_tick] = temperature;
+	BC->moving_average_tick = (BC->moving_average_tick + 1) % NUM_MOVING_AVERAGE;
 
-	return value;
+	return (BC->moving_average_sum + NUM_MOVING_AVERAGE/2)/NUM_MOVING_AVERAGE;
 }
 
 void tick(const uint8_t tick_type) {
 	simple_tick(tick_type);
+}
+
+
+void set_noise_rejection_filter(const ComType com, const SetNoiseRejectionFilter *data) {
+	BC->noise_filter = data->filter;
+
+	if(data->filter == 0) {
+		BC->current_configuration |= REG_CONF_50HZ_FILTER;
+	} else {
+		BC->current_configuration &= ~REG_CONF_50HZ_FILTER;
+	}
+
+	// Turn conversion mode off while changing filter
+	write_register(REG_CONFIGURATION, BC->current_configuration & (~REG_CONF_CONVERION_MODE_AUTO));
+	SLEEP_US(100);
+
+	// Turn conversion mode on again
+	write_register(REG_CONFIGURATION, BC->current_configuration);
+
+	BA->com_return_setter(com, data);
+}
+
+void get_noise_rejection_filter(const ComType com, const GetNoiseRejectionFilter *data) {
+	GetNoiseRejectionFilterReturn gnrfr;
+
+	gnrfr.header        = data->header;
+	gnrfr.header.length = sizeof(GetNoiseRejectionFilterReturn);
+	gnrfr.filter        = BC->noise_filter;
+
+	BA->send_blocking_with_timeout(&gnrfr, sizeof(GetNoiseRejectionFilterReturn), com);
+}
+
+void is_sensor_connected(const ComType com, const IsSensorConnected *data) {
+	IsSensorConnectedReturn iscr;
+
+	iscr.header        = data->header;
+	iscr.header.length = sizeof(IsSensorConnectedReturn);
+	iscr.connected     = BC->fault == 0;
+
+	BA->send_blocking_with_timeout(&iscr, sizeof(IsSensorConnectedReturn), com);
+}
+
+void set_wire_mode(const ComType com, const SetWireMode *data) {
+	BC->wire_mode = data->mode;
+
+	if(data->mode == 0) {
+		BC->current_configuration &= ~REG_CONF_3WIRE_RTD;
+	} else {
+		BC->current_configuration |= REG_CONF_3WIRE_RTD;
+	}
+
+	write_register(REG_CONFIGURATION, BC->current_configuration |
+	                                  REG_CONF_FAULT_STATUS_AUTO_CLEAR);
+
+	BA->com_return_setter(com, data);
+}
+
+void get_wire_mode(const ComType com, const GetWireMode *data) {
+	GetWireModeReturn gwmr;
+
+	gwmr.header        = data->header;
+	gwmr.header.length = sizeof(GetWireModeReturn);
+	gwmr.mode          = BC->wire_mode;
+
+	BA->send_blocking_with_timeout(&gwmr, sizeof(GetWireModeReturn), com);
 }

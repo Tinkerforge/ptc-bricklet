@@ -44,7 +44,7 @@
 #define BRICKLET_HAS_SIMPLE_SENSOR
 #define BRICKLET_NO_OFFSET
 #define INVOCATION_IN_BRICKLET_CODE
-#define NUM_SIMPLE_VALUES 1
+#define NUM_SIMPLE_VALUES 2
 #define SIMPLE_VALUE_TYPE int32_t
 
 #define BOARD_MCK 64000000
@@ -53,6 +53,8 @@
 #define SPI_SDI (BS->pin2_da)
 #define SPI_CLK (BS->pin3_pwm)
 #define SPI_CS  (BS->pin4_io)
+
+#define NUM_MOVING_AVERAGE 40
 
 typedef struct {
 	int32_t value[NUM_SIMPLE_VALUES];
@@ -65,18 +67,24 @@ typedef struct {
 	uint32_t threshold_period_current[NUM_SIMPLE_VALUES];
 	int32_t  threshold_min[NUM_SIMPLE_VALUES];
 	int32_t  threshold_max[NUM_SIMPLE_VALUES];
-	char     threshold_option[NUM_SIMPLE_VALUES];
 
 	int32_t  threshold_min_save[NUM_SIMPLE_VALUES];
 	int32_t  threshold_max_save[NUM_SIMPLE_VALUES];
 	char     threshold_option_save[NUM_SIMPLE_VALUES];
+	char     threshold_option[NUM_SIMPLE_VALUES];
 
 	uint32_t tick;
 
-	int32_t temperature_counter;
-	int32_t temperature_avg;
+	int32_t moving_average[NUM_MOVING_AVERAGE];
+	int32_t moving_average_sum;
+	uint8_t moving_average_tick;
+
 	uint8_t current_configuration;
 	uint8_t fault;
+	uint8_t noise_filter;
+	uint8_t wire_mode;
+
+	bool new_resistance;
 } BrickContext;
 
 #endif

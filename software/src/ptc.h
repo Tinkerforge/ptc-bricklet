@@ -27,16 +27,28 @@
 #include "bricklib/com/com_common.h"
 
 #define FID_GET_TEMPERATURE 1
-#define FID_SET_TEMPERATURE_CALLBACK_PERIOD 2
-#define FID_GET_TEMPERATURE_CALLBACK_PERIOD 3
-#define FID_SET_TEMPERATURE_CALLBACK_THRESHOLD 4
-#define FID_GET_TEMPERATURE_CALLBACK_THRESHOLD 5
-#define FID_SET_DEBOUNCE_PERIOD 6
-#define FID_GET_DEBOUNCE_PERIOD 7
-#define FID_TEMPERATURE 8
-#define FID_TEMPERATURE_REACHED 9
+#define FID_GET_RESISTANCE 2
+#define FID_SET_TEMPERATURE_CALLBACK_PERIOD 3
+#define FID_GET_TEMPERATURE_CALLBACK_PERIOD 4
+#define FID_SET_RESISTANCE_CALLBACK_PERIOD 5
+#define FID_GET_RESISTANCE_CALLBACK_PERIOD 6
+#define FID_SET_TEMPERATURE_CALLBACK_THRESHOLD 7
+#define FID_GET_TEMPERATURE_CALLBACK_THRESHOLD 8
+#define FID_SET_RESISTANCE_CALLBACK_THRESHOLD 9
+#define FID_GET_RESISTANCE_CALLBACK_THRESHOLD 10
+#define FID_SET_DEBOUNCE_PERIOD 11
+#define FID_GET_DEBOUNCE_PERIOD 12
+#define FID_TEMPERATURE 13
+#define FID_TEMPERATURE_REACHED 14
+#define FID_RESISTANCE 15
+#define FID_RESISTANCE_REACHED 16
+#define FID_SET_NOISE_REJECTION_FILTER 17
+#define FID_GET_NOISE_REJECTION_FILTER 18
+#define FID_IS_SENSOR_CONNECTED 19
+#define FID_SET_WIRE_MODE 20
+#define FID_GET_WIRE_MODE 21
 
-#define FID_LAST 9
+#define FID_LAST 21
 
 #define REG_WRITE          0x80
 
@@ -67,8 +79,53 @@
 #define REG_FAULT_RTD_RTDIN_FORCE (1 << 3)
 #define REG_FAULT_OVER_UDER_VOLTAGE (1 << 2)
 
+typedef struct {
+	MessageHeader header;
+	uint8_t filter;
+} __attribute__((__packed__)) SetNoiseRejectionFilter;
+
+typedef struct {
+	MessageHeader header;
+} __attribute__((__packed__)) GetNoiseRejectionFilter;
+
+typedef struct {
+	MessageHeader header;
+	uint8_t filter;
+} __attribute__((__packed__)) GetNoiseRejectionFilterReturn;
+
+typedef struct {
+	MessageHeader header;
+} __attribute__((__packed__)) IsSensorConnected;
+
+typedef struct {
+	MessageHeader header;
+	bool connected;
+} __attribute__((__packed__)) IsSensorConnectedReturn;
+
+typedef struct {
+	MessageHeader header;
+	uint8_t mode;
+} __attribute__((__packed__)) SetWireMode;
+
+typedef struct {
+	MessageHeader header;
+} __attribute__((__packed__)) GetWireMode;
+
+typedef struct {
+	MessageHeader header;
+	uint8_t mode;
+} __attribute__((__packed__)) GetWireModeReturn;
+
+void set_noise_rejection_filter(const ComType com, const SetNoiseRejectionFilter *data);
+void get_noise_rejection_filter(const ComType com, const GetNoiseRejectionFilter *data);
+void is_sensor_connected(const ComType com, const IsSensorConnected *data);
+void set_wire_mode(const ComType com, const SetWireMode *data);
+void get_wire_mode(const ComType com, const GetWireMode *data);
+
+
 uint8_t spibb_transceive_byte(const uint8_t value);
 int32_t make_temperature(const int32_t value);
+int32_t make_resistance(const int32_t value);
 void write_register(const uint8_t reg, const uint8_t value);
 void read_register(const uint8_t reg, uint8_t *data, const uint8_t length);
 
