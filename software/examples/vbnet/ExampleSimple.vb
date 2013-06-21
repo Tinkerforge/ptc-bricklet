@@ -13,7 +13,7 @@ Module ExampleSimple
         ' Don't use device before ipcon is connected
 
         ' Get current temperature (unit is °C/100)
-        Dim temperature As Short = ptc.GetTemperature()
+        Dim temperature As Integer = ptc.GetTemperature()
 
         System.Console.WriteLine("Temperature: " + (temperature/100.0).ToString() + " °C")
 

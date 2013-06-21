@@ -144,7 +144,7 @@ void constructor(void) {
 
 	BC->new_resistance = false;
 	BC->noise_filter = 0;
-	BC->wire_mode = 1;
+	BC->wire_mode = 2;
 
 	simple_constructor();
 
@@ -153,7 +153,6 @@ void constructor(void) {
 
 	BC->current_configuration = REG_CONF_VBIAS_ON |
 	                            REG_CONF_50HZ_FILTER |
-	                            REG_CONF_3WIRE_RTD |
 	                            REG_CONF_CONVERION_MODE_AUTO;
 
 	write_register(REG_CONFIGURATION, BC->current_configuration |
@@ -313,12 +312,16 @@ void is_sensor_connected(const ComType com, const IsSensorConnected *data) {
 }
 
 void set_wire_mode(const ComType com, const SetWireMode *data) {
+	if(data->mode < 2 || data->mode > 4) {
+		BA->com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
+	}
+
 	BC->wire_mode = data->mode;
 
-	if(data->mode == 0) {
-		BC->current_configuration &= ~REG_CONF_3WIRE_RTD;
-	} else {
+	if(data->mode == 3) {
 		BC->current_configuration |= REG_CONF_3WIRE_RTD;
+	} else {
+		BC->current_configuration &= ~REG_CONF_3WIRE_RTD;
 	}
 
 	write_register(REG_CONFIGURATION, BC->current_configuration |
