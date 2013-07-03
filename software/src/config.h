@@ -38,7 +38,7 @@
 
 #define BRICKLET_DEVICE_IDENTIFIER 226
 
-#define LOGGING_LEVEL LOGGING_DEBUG
+#define LOGGING_LEVEL LOGGING_INFO
 #define DEBUG_BRICKLET 0
 
 #define BRICKLET_HAS_SIMPLE_SENSOR
@@ -50,9 +50,9 @@
 #define BOARD_MCK 64000000
 
 #define SPI_SDO (BS->pin1_ad)
-#define SPI_SDI (BS->pin2_da)
+#define SPI_CS  (BS->pin2_da)
 #define SPI_CLK (BS->pin3_pwm)
-#define SPI_CS  (BS->pin4_io)
+#define SPI_SDI (BS->pin4_io)
 
 #define NUM_MOVING_AVERAGE 40
 

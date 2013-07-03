@@ -289,6 +289,7 @@ void set_noise_rejection_filter(const ComType com, const SetNoiseRejectionFilter
 	write_register(REG_CONFIGURATION, BC->current_configuration);
 
 	BA->com_return_setter(com, data);
+	logbli("set_noise_rejection_filter: %d\n\r", data->filter);
 }
 
 void get_noise_rejection_filter(const ComType com, const GetNoiseRejectionFilter *data) {
@@ -299,6 +300,7 @@ void get_noise_rejection_filter(const ComType com, const GetNoiseRejectionFilter
 	gnrfr.filter        = BC->noise_filter;
 
 	BA->send_blocking_with_timeout(&gnrfr, sizeof(GetNoiseRejectionFilterReturn), com);
+	logbli("get_noise_rejection_filter: %d\n\r", gnrfr.filter);
 }
 
 void is_sensor_connected(const ComType com, const IsSensorConnected *data) {
@@ -309,6 +311,7 @@ void is_sensor_connected(const ComType com, const IsSensorConnected *data) {
 	iscr.connected     = BC->fault == 0;
 
 	BA->send_blocking_with_timeout(&iscr, sizeof(IsSensorConnectedReturn), com);
+	logbli("is_sensor_connected\n\r");
 }
 
 void set_wire_mode(const ComType com, const SetWireMode *data) {
@@ -328,6 +331,7 @@ void set_wire_mode(const ComType com, const SetWireMode *data) {
 	                                  REG_CONF_FAULT_STATUS_AUTO_CLEAR);
 
 	BA->com_return_setter(com, data);
+	logbli("set_wire_mode: %d\n\r", data->mode);
 }
 
 void get_wire_mode(const ComType com, const GetWireMode *data) {
@@ -338,4 +342,5 @@ void get_wire_mode(const ComType com, const GetWireMode *data) {
 	gwmr.mode          = BC->wire_mode;
 
 	BA->send_blocking_with_timeout(&gwmr, sizeof(GetWireModeReturn), com);
+	logbli("get_wire_mode: %d\n\r", BC->wire_mode);
 }
