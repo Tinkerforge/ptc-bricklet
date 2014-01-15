@@ -6,9 +6,9 @@ require_once('Tinkerforge/BrickletPTC.php');
 use Tinkerforge\IPConnection;
 use Tinkerforge\BrickletPTC;
 
-$host = 'localhost';
-$port = 4223;
-$uid = 'XYZ'; // Change to your UID
+const HOST = 'localhost';
+const PORT = 4223;
+const UID = 'XYZ'; // Change to your UID
 
 // Callback for temperature greater than 30 °C
 function cb_reached($temperature)
@@ -18,9 +18,9 @@ function cb_reached($temperature)
 }
 
 $ipcon = new IPConnection(); // Create IP connection
-$ptc = new BrickletPTC($uid, $ipcon); // Create device object
+$ptc = new BrickletPTC(UID, $ipcon); // Create device object
 
-$ipcon->connect($host, $port); // Connect to brickd
+$ipcon->connect(HOST, PORT); // Connect to brickd
 // Don't use device before ipcon is connected
 
 // Get threshold callbacks with a debounce time of 10 seconds (10000ms)
