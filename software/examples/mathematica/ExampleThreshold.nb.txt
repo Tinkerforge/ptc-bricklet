@@ -1,0 +1,34 @@
+Needs["NETLink`"]
+LoadNETAssembly["Tinkerforge",NotebookDirectory[]<>"../../.."]
+
+host="localhost"
+port=4223
+uid="i3W"(* Change to your UID *)
+
+(* Create IPConnection and device object *)
+ipcon=NETNew["Tinkerforge.IPConnection"]
+ptc=NETNew["Tinkerforge.BrickletPTC",uid,ipcon]
+ipcon@Connect[host,port]
+
+(* Get threshold callbacks with a debounce time of 10 seconds (10000ms) *)
+ptc@SetDebouncePeriod[10000]
+
+(* Callback for temperature greater than 30 °C *)
+TemperatureReachedCB[sender_,temperature_]:=
+ Module[{},
+  Print["We have "<>ToString[N[Quantity[temperature,"C/100"]]]];
+  Print["It is too hot, we need air conditioning!"]
+ ]
+
+AddEventHandler[ptc@TemperatureReached,TemperatureReachedCB]
+
+(* Configure threshold for "greater than 30 °C" (unit is °C/100) *)
+option=Tinkerforge`BrickletPTC`THRESHOLDUOPTIONUGREATER
+ptc@SetTemperatureCallbackThreshold[option,30*100,0]
+
+Input["Click OK to exit"]
+
+(* Clean up *)
+ipcon@Disconnect[]
+ReleaseNETObject[ptc]
+ReleaseNETObject[ipcon]
