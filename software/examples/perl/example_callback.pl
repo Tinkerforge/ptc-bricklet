@@ -7,8 +7,8 @@ use constant HOST => 'localhost';
 use constant PORT => 4223;
 use constant UID => 'i1S'; # Change to your UID
 
-my $ipcon = IPConnection->new(); # Create IP connection
-my $ptc = BrickletPTC->new(&UID, $ipcon); # Create device object
+my $ipcon = Tinkerforge::IPConnection->new(); # Create IP connection
+my $ptc = Tinkerforge::BrickletPTC->new(&UID, $ipcon); # Create device object
 
 # Callback function for temperature callback (parameter has unit °C/100)
 sub cb_temperature
