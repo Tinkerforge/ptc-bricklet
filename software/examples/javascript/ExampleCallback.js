@@ -1,12 +1,11 @@
-var IPConnection = require('Tinkerforge/IPConnection');
-var BrickletPTC = require('Tinkerforge/BrickletPTC');
+var Tinkerforge = require('tinkerforge');
 
 var HOST = 'localhost';
 var PORT = 4223;
 var UID = 'i33';// Change to your UID
 
-var ipcon = new IPConnection();// Create IP connection
-var ptc = new BrickletPTC(UID, ipcon);// Create device object
+var ipcon = new Tinkerforge.IPConnection();// Create IP connection
+var ptc = new Tinkerforge.BrickletPTC(UID, ipcon);// Create device object
 
 ipcon.connect(HOST, PORT,
     function(error) {
@@ -15,7 +14,7 @@ ipcon.connect(HOST, PORT,
 );// Connect to brickd
 
 // Don't use device before ipcon is connected
-ipcon.on(IPConnection.CALLBACK_CONNECTED,
+ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
     function(connectReason) {
         //Set Period for temperature callback to 1s (1000ms)
         //Note: The callback is only called every second if the 
@@ -25,7 +24,7 @@ ipcon.on(IPConnection.CALLBACK_CONNECTED,
 );
 
 // Register temperature callback
-ptc.on(BrickletPTC.CALLBACK_TEMPERATURE,
+ptc.on(Tinkerforge.BrickletPTC.CALLBACK_TEMPERATURE,
     // Callback function for temperature
     function(temp) {
         console.log('Temperature: '+temp/100.0+' °C');
