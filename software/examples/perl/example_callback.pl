@@ -14,7 +14,8 @@ my $ptc = Tinkerforge::BrickletPTC->new(&UID, $ipcon); # Create device object
 sub cb_temperature
 {
     my ($temperature) = @_;
-    print "\nTemperature: ".$temperature/100.0." °C\n";
+
+    print "Temperature: ".$temperature/100.0." °C\n";
 }
 
 $ipcon->connect(&HOST, &PORT); # Connect to brickd
@@ -28,7 +29,7 @@ $ptc->set_temperature_callback_period(1000);
 # Register temperature callback to function cb_temperature
 $ptc->register_callback($ptc->CALLBACK_TEMPERATURE, 'cb_temperature');
 
-print "\nPress any key to exit...\n";
+print "Press any key to exit...\n";
 <STDIN>;
 $ipcon->disconnect();
 

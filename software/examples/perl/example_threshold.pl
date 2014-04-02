@@ -14,8 +14,9 @@ my $ptc = Tinkerforge::BrickletPTC->new(&UID, $ipcon); # Create device object
 sub cb_reached
 {
     my ($temperature) = @_;
-    print "\nWe have ".$temperature/100.0." °C";
-    print "\nIt is too hot, we need air conditioning!\n";
+
+    print "We have ".$temperature/100.0." °C\n";
+    print "It is too hot, we need air conditioning!\n";
 }
 
 $ipcon->connect(&HOST, &PORT); # Connect to brickd
@@ -30,7 +31,7 @@ $ptc->register_callback($ptc->CALLBACK_TEMPERATURE_REACHED, 'cb_reached');
 # Configure threshold for "greater than 30 °C" (unit is °C/100)
 $ptc->set_temperature_callback_threshold('>', 30*100, 0);
 
-print "\nPress any key to exit...\n";
+print "Press any key to exit...\n";
 <STDIN>;
 $ipcon->disconnect();
 
