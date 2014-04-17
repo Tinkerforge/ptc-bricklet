@@ -1,4 +1,4 @@
-function matlab_example_callback
+function matlab_example_callback()
     import com.tinkerforge.IPConnection;
     import com.tinkerforge.BrickletPTC;
 
@@ -28,4 +28,3 @@ end
 function cb_temperature(e)
     fprintf('Temperature: %g °C\n', e.temperature/100.0);
 end
-

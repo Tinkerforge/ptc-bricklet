@@ -1,4 +1,4 @@
-function octave_example_threshold
+function octave_example_threshold()
     more off;
     
     HOST = "localhost";

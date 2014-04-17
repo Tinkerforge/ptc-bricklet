@@ -1,4 +1,4 @@
-function octave_example_callback
+function octave_example_callback()
     more off;
     
     HOST = "localhost";
@@ -27,4 +27,3 @@ end
 function cb_temperature(e)
     fprintf("Temperature: %g °C\n", e.temperature/100.0);
 end
-
