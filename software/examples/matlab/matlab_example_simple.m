@@ -13,10 +13,9 @@ function matlab_example_simple
     % Don't use device before ipcon is connected
 
     % Get current temperature (unit is °C/100)
-    temperature = ptc.getTemperature()/100;
+    temperature = ptc.getTemperature();
+    fprintf('Temperature: %g °C\n', temperature/100.0);
 
-    fprintf('Temperature: %g °C\n', temperature);
-
-    input('\nPress any key to exit...\n', 's');
+    input('Press any key to exit...\n', 's');
     ipcon.disconnect();
 end
