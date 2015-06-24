@@ -52,8 +52,7 @@
                 ptc.on(Tinkerforge.BrickletPTC.CALLBACK_TEMPERATURE,
                     // Callback function for temperature
                     function(temp) {
-                        textArea.value += 'Temperature: '+temp/100.0+' °C';
-                        textArea.value += '\n';
+                        textArea.value += 'Temperature: '+temp/100.0+' °C\n';
                         textArea.scrollTop = textArea.scrollHeight;
                     }
                 );
