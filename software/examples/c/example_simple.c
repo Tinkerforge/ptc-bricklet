@@ -14,7 +14,7 @@ int main() {
 
 	// Create device object
 	PTC ptc;
-	ptc_create(&ptc, UID, &ipcon); 
+	ptc_create(&ptc, UID, &ipcon);
 
 	// Connect to brickd
 	if(ipcon_connect(&ipcon, HOST, PORT) < 0) {
@@ -26,7 +26,7 @@ int main() {
 	// Get current temperature (unit is °C/100)
 	int32_t temperature;
 	if(ptc_get_temperature(&ptc, &temperature) < 0) {
-		fprintf(stderr, "Could not get value, probably timeout\n");
+		fprintf(stderr, "Could not get temperature, probably timeout\n");
 		exit(1);
 	}
 

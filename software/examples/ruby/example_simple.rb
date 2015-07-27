@@ -17,8 +17,8 @@ ipcon.connect HOST, PORT # Connect to brickd
 # Don't use device before ipcon is connected
 
 # Get current temperature (unit is °C/100)
-temperature = ptc.get_temperature / 100.0
-puts "Temperature: #{temperature} °C"
+temperature = ptc.get_temperature
+puts "Temperature: #{temperature/100.0} °C"
 
 puts 'Press key to exit'
 $stdin.gets

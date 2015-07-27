@@ -6,7 +6,7 @@ class Example
 	private static int PORT = 4223;
 	private static string UID = "XYZ"; // Change to your UID
 
-	static void Main() 
+	static void Main()
 	{
 		IPConnection ipcon = new IPConnection(); // Create IP connection
 		BrickletPTC ptc = new BrickletPTC(UID, ipcon); // Create device object
@@ -16,7 +16,6 @@ class Example
 
 		// Get current temperature (unit is °C/100)
 		int temperature = ptc.GetTemperature();
-
 		System.Console.WriteLine("Temperature: " + temperature/100.0 + " °C");
 
 		System.Console.WriteLine("Press enter to exit");

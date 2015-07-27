@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-  
+# -*- coding: utf-8 -*-
 
 HOST = "localhost"
 PORT = 4223
@@ -19,9 +19,9 @@ if __name__ == "__main__":
     ipcon.connect(HOST, PORT) # Connect to brickd
     # Don't use device before ipcon is connected
 
-    # Set Period for temperature callback to 1s (1000ms)
-    # Note: The callback is only called every second if the 
-    #       temperature has changed since the last call!
+    # Set period for temperature callback to 1s (1000ms)
+    # Note: The temperature callback is only called every second
+    #       if the temperature has changed since the last call!
     ptc.set_temperature_callback_period(1000)
 
     # Register temperature callback to function cb_temperature

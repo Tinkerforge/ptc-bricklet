@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-  
+# -*- coding: utf-8 -*-
 
 HOST = "localhost"
 PORT = 4223
@@ -16,9 +16,8 @@ if __name__ == "__main__":
     # Don't use device before ipcon is connected
 
     # Get current temperature (unit is °C/100)
-    temperature = ptc.get_temperature()/100.0
-
-    print('Temperature: ' + str(temperature) + ' °C')
+    temperature = ptc.get_temperature()
+    print('Temperature: ' + str(temperature/100.0) + ' °C')
 
     raw_input('Press key to exit\n') # Use input() in Python 3
     ipcon.disconnect()

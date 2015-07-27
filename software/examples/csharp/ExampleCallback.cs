@@ -12,7 +12,7 @@ class Example
 		System.Console.WriteLine("Temperature: " + temperature/100.0 + " °C");
 	}
 
-	static void Main() 
+	static void Main()
 	{
 		IPConnection ipcon = new IPConnection(); // Create IP connection
 		BrickletPTC ptc = new BrickletPTC(UID, ipcon); // Create device object
@@ -20,9 +20,9 @@ class Example
 		ipcon.Connect(HOST, PORT); // Connect to brickd
 		// Don't use device before ipcon is connected
 
-		// Set Period for temperature callback to 1s (1000ms)
-		// Note: The temperature callback is only called every second if the 
-		//       temperature has changed since the last call!
+		// Set period for temperature callback to 1s (1000ms)
+		// Note: The temperature callback is only called every second
+		//       if the temperature has changed since the last call!
 		ptc.SetTemperatureCallbackPeriod(1000);
 
 		// Register temperature callback to function TemperatureCB
