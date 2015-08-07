@@ -6,7 +6,7 @@ PORT = 4223
 UID = "XYZ" # Change to your UID
 
 from tinkerforge.ip_connection import IPConnection
-from tinkerforge.bricklet_ptc import PTC
+from tinkerforge.bricklet_ptc import BrickletPTC
 
 # Callback function for temperature greater than 120 °C (parameter has unit °C/100)
 def cb_temperature_reached(temperature):
@@ -14,7 +14,7 @@ def cb_temperature_reached(temperature):
 
 if __name__ == "__main__":
     ipcon = IPConnection() # Create IP connection
-    ptc = PTC(UID, ipcon) # Create device object
+    ptc = BrickletPTC(UID, ipcon) # Create device object
 
     ipcon.connect(HOST, PORT) # Connect to brickd
     # Don't use device before ipcon is connected
