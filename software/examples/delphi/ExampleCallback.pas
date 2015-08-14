@@ -24,7 +24,7 @@ const
 var
   e: TExample;
 
-{ Callback function for temperature callback (parameter has unit °C/100) }
+{ Callback procedure for temperature callback (parameter has unit °C/100) }
 procedure TExample.TemperatureCB(sender: TBrickletPTC; const temperature: longint);
 begin
   WriteLn(Format('Temperature: %f °C', [temperature/100.0]));
@@ -42,9 +42,9 @@ begin
   ipcon.Connect(HOST, PORT);
   { Don't use device before ipcon is connected }
 
-  { Set Period for temperature callback to 1s (1000ms)
-    Note: The temperature callback is only called every second if the
-          temperature has changed since the last call! }
+  { Set period for temperature callback to 1s (1000ms)
+    Note: The temperature callback is only called every second
+          if the temperature has changed since the last call! }
   ptc.SetTemperatureCallbackPeriod(1000);
 
   { Register temperature callback to procedure TemperatureCB }

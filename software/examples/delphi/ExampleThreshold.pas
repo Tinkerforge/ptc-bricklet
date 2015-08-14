@@ -12,7 +12,7 @@ type
     ipcon: TIPConnection;
     ptc: TBrickletPTC;
   public
-    procedure ReachedCB(sender: TBrickletPTC; const temperature: longint);
+    procedure TemperatureReachedCB(sender: TBrickletPTC; const temperature: longint);
     procedure Execute;
   end;
 
@@ -24,11 +24,10 @@ const
 var
   e: TExample;
 
-{ Callback for temperature greater than 30 °C }
-procedure TExample.ReachedCB(sender: TBrickletPTC; const temperature: longint);
+{ Callback procedure for temperature greater than 120 °C (parameter has unit °C/100) }
+procedure TExample.TemperatureReachedCB(sender: TBrickletPTC; const temperature: longint);
 begin
-  WriteLn(Format('We have %f °C.', [temperature/100.0]));
-  WriteLn('It is too hot, we need air conditioning!');
+  WriteLn(Format('Temperature: %f °C', [temperature/100.0]));
 end;
 
 procedure TExample.Execute;
@@ -46,11 +45,11 @@ begin
   { Get threshold callbacks with a debounce time of 10 seconds (10000ms) }
   ptc.SetDebouncePeriod(10000);
 
-  { Register threshold reached callback to procedure ReachedCB }
-  ptc.OnTemperatureReached := {$ifdef FPC}@{$endif}ReachedCB;
+  { Register threshold reached callback to procedure TemperatureReachedCB }
+  ptc.OnTemperatureReached := {$ifdef FPC}@{$endif}TemperatureReachedCB;
 
-  { Configure threshold for "greater than 30 °C" (unit is °C/100) }
-  ptc.SetTemperatureCallbackThreshold('>', 30*100, 0);
+  { Configure threshold for "greater than 120 °C" (unit is °C/100) }
+  ptc.SetTemperatureCallbackThreshold('>', 120*100, 0);
 
   WriteLn('Press key to exit');
   ReadLn;

@@ -24,7 +24,7 @@ var
   e: TExample;
 
 procedure TExample.Execute;
-var temperature: word;
+var temperature: longint;
 begin
   { Create IP connection }
   ipcon := TIPConnection.Create;
