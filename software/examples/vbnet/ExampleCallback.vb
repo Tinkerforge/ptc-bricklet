@@ -17,9 +17,9 @@ Module ExampleCallback
         ipcon.Connect(HOST, PORT) ' Connect to brickd
         ' Don't use device before ipcon is connected
 
-        ' Set Period for temperature callback to 1s (1000ms)
-        ' Note: The temperature callback is only called every second if the 
-        '       temperature has changed since the last call!
+        ' Set period for temperature callback to 1s (1000ms)
+        ' Note: The temperature callback is only called every second
+        '       if the temperature has changed since the last call!
         ptc.SetTemperatureCallbackPeriod(1000)
 
         ' Register temperature callback to function TemperatureCB

@@ -5,10 +5,9 @@ Module ExampleThreshold
     Const PORT As Integer = 4223
     Const UID As String = "XYZ" ' Change to your UID
 
-    ' Callback for temperature greater than 30 °C
-    Sub ReachedCB(ByVal sender As BrickletPTC, ByVal temperature As Integer)
-        System.Console.WriteLine("We have: " + (temperature/100.0).ToString() + " °C")
-        System.Console.WriteLine("It is too hot, we need air conditioning!")
+    ' Callback function for temperature greater than 120 °C (parameter has unit °C/100)
+    Sub TemperatureReachedCB(ByVal sender As BrickletPTC, ByVal temperature As Integer)
+        System.Console.WriteLine("Temperature: " + (temperature/100.0).ToString() + " °C")
     End Sub
 
     Sub Main()
@@ -21,11 +20,11 @@ Module ExampleThreshold
         ' Get threshold callbacks with a debounce time of 10 seconds (10000ms)
         ptc.SetDebouncePeriod(10000)
 
-        ' Register threshold reached callback to function ReachedCB
-        AddHandler ptc.TemperatureReached, AddressOf ReachedCB
+        ' Register threshold reached callback to function TemperatureReachedCB
+        AddHandler ptc.TemperatureReached, AddressOf TemperatureReachedCB
 
-        ' Configure threshold for "greater than 30 °C" (unit is °C/100)
-        ptc.SetTemperatureCallbackThreshold(">"C, 30*100, 0)
+        ' Configure threshold for "greater than 120 °C" (unit is °C/100)
+        ptc.SetTemperatureCallbackThreshold(">"C, 120*100, 0)
 
         System.Console.WriteLine("Press key to exit")
         System.Console.ReadLine()
