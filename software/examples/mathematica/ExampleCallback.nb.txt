@@ -3,26 +3,26 @@ LoadNETAssembly["Tinkerforge",NotebookDirectory[]<>"../../.."]
 
 host="localhost"
 port=4223
-uid="i3W"(* Change to your UID *)
+uid="XYZ"(*Change to your UID*)
 
-(* Create IPConnection and device object *)
+(*Create IPConnection and device object*)
 ipcon=NETNew["Tinkerforge.IPConnection"]
 ptc=NETNew["Tinkerforge.BrickletPTC",uid,ipcon]
 ipcon@Connect[host,port]
 
-(* Set Period for temperature callback to 1s (1000ms) *)
-(* Note: The temperature callback is only called every second if the *)
-(*       temperature has changed since the last call! *)
-ptc@SetTemperatureCallbackPeriod[1000]
-
-(* Callback function for temperature callback (parameter has unit °C/100) *)
+(*Callback function for temperature callback (parameter has unit °C/100)*)
 TemperatureCB[sender_,temperature_]:=
  Print["Temperature: "<>ToString[N[Quantity[temperature,"°C/100"]]]]
 AddEventHandler[ptc@Temperature,TemperatureCB]
 
+(*Set period for temperature callback to 1s (1000ms)*)
+(*Note: The temperature callback is only called every second*)
+(*if the temperature has changed since the last call!*)
+ptc@SetTemperatureCallbackPeriod[1000]
+
 Input["Click OK to exit"]
 
-(* Clean up *)
+(*Clean up*)
 ipcon@Disconnect[]
 ReleaseNETObject[ptc]
 ReleaseNETObject[ipcon]

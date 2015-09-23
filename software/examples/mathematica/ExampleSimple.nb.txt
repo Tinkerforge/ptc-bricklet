@@ -3,17 +3,17 @@ LoadNETAssembly["Tinkerforge",NotebookDirectory[]<>"../../.."]
 
 host="localhost"
 port=4223
-uid="i3W"(* Change to your UID *)
+uid="XYZ"(*Change to your UID*)
 
-(* Create IPConnection and device object *)
+(*Create IPConnection and device object*)
 ipcon=NETNew["Tinkerforge.IPConnection"]
 ptc=NETNew["Tinkerforge.BrickletPTC",uid,ipcon]
 ipcon@Connect[host,port]
 
-(* GGet current temperature (unit is °C/100) *)
+(*Get current temperature (unit is °C/100)*)
 Print["Temperature: "<>ToString[N[Quantity[ptc@GetTemperature[],"°C/100"]]]]
 
-(* Clean up *)
+(*Clean up*)
 ipcon@Disconnect[]
 ReleaseNETObject[ptc]
 ReleaseNETObject[ipcon]

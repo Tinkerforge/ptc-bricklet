@@ -1,13 +1,16 @@
 #!/bin/sh
-# connects to localhost:4223 by default, use --host and --port to change it
+# Connects to localhost:4223 by default, use --host and --port to change this
 
-# change to your UID
-uid=XYZ
+uid=XYZ # Change to your UID
 
-# set period for temperature callback to 1s (1000ms)
-# note: the temperature callback is only called every second if the
-#       temperature has changed since the last call!
+# Handle incoming temperature callbacks (parameter has unit °C/100)
+tinkerforge dispatch ptc-bricklet $uid temperature &
+
+# Set period for temperature callback to 1s (1000ms)
+# Note: The temperature callback is only called every second
+#       if the temperature has changed since the last call!
 tinkerforge call ptc-bricklet $uid set-temperature-callback-period 1000
 
-# handle incoming temperature callbacks (unit is °C/100)
-tinkerforge dispatch ptc-bricklet $uid temperature
+echo "Press key to exit"; read dummy
+
+kill -- -$$ # Stop callback dispatch in background

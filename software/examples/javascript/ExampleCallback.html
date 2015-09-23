@@ -34,25 +34,25 @@
                 var ptc = new Tinkerforge.BrickletPTC(UID, ipcon); // Create device object
                 ipcon.connect(HOST, PORT,
                     function(error) {
-                        textArea.value += 'Error: '+error+ '\n';
+                        textArea.value += 'Error: ' + error + '\n';
                     }
                 ); // Connect to brickd
                 // Don't use device before ipcon is connected
 
                 ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-                    function(connectReason) {
-                        // Set Period for temperature callback to 1s (1000ms)
-                        // Note: The callback is only called every second if the
-                        // temperature has changed since the last call!
+                    function (connectReason) {
+                        // Set period for temperature callback to 1s (1000ms)
+                        // Note: The temperature callback is only called every second
+                        //       if the temperature has changed since the last call!
                         ptc.setTemperatureCallbackPeriod(1000);
                     }
                 );
 
                 // Register temperature callback
                 ptc.on(Tinkerforge.BrickletPTC.CALLBACK_TEMPERATURE,
-                    // Callback function for temperature
-                    function(temp) {
-                        textArea.value += 'Temperature: '+temp/100.0+' °C\n';
+                    // Callback function for temperature callback (parameter has unit °C/100)
+                    function (temperature) {
+                        textArea.value += 'Temperature: ' + temperature/100.0 + ' °C\n';
                         textArea.scrollTop = textArea.scrollHeight;
                     }
                 );

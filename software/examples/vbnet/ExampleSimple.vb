@@ -1,3 +1,4 @@
+Imports System
 Imports Tinkerforge
 
 Module ExampleSimple
@@ -14,10 +15,10 @@ Module ExampleSimple
 
         ' Get current temperature (unit is °C/100)
         Dim temperature As Integer = ptc.GetTemperature()
-        System.Console.WriteLine("Temperature: " + (temperature/100.0).ToString() + " °C")
+        Console.WriteLine("Temperature: " + (temperature/100.0).ToString() + " °C")
 
-        System.Console.WriteLine("Press key to exit")
-        System.Console.ReadLine()
+        Console.WriteLine("Press key to exit")
+        Console.ReadLine()
         ipcon.Disconnect()
     End Sub
 End Module

@@ -17,7 +17,7 @@ if __name__ == "__main__":
 
     # Get current temperature (unit is °C/100)
     temperature = ptc.get_temperature()
-    print('Temperature: ' + str(temperature/100.0) + ' °C')
+    print("Temperature: " + str(temperature/100.0) + " °C")
 
-    raw_input('Press key to exit\n') # Use input() in Python 3
+    raw_input("Press key to exit\n") # Use input() in Python 3
     ipcon.disconnect()

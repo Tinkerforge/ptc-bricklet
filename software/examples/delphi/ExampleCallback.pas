@@ -42,13 +42,13 @@ begin
   ipcon.Connect(HOST, PORT);
   { Don't use device before ipcon is connected }
 
+  { Register temperature callback to procedure TemperatureCB }
+  ptc.OnTemperature := {$ifdef FPC}@{$endif}TemperatureCB;
+
   { Set period for temperature callback to 1s (1000ms)
     Note: The temperature callback is only called every second
           if the temperature has changed since the last call! }
   ptc.SetTemperatureCallbackPeriod(1000);
-
-  { Register temperature callback to procedure TemperatureCB }
-  ptc.OnTemperature := {$ifdef FPC}@{$endif}TemperatureCB;
 
   WriteLn('Press key to exit');
   ReadLn;

@@ -34,20 +34,20 @@
                 var ptc = new Tinkerforge.BrickletPTC(UID, ipcon); // Create device object
                 ipcon.connect(HOST, PORT,
                     function(error) {
-                        textArea.value += 'Error: '+error+ '\n';
+                        textArea.value += 'Error: ' + error + '\n';
                     }
                 ); // Connect to brickd
                 // Don't use device before ipcon is connected
 
                 ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-                    function(connectReason) {
-                        //Get current temperature (unit is °C/100)
+                    function (connectReason) {
+                        // Get current temperature (unit is °C/100)
                         ptc.getTemperature(
-                            function(temp) {
-                                textArea.value += 'Temperature: ' + temp/100 + ' °C\n';
+                            function (temperature) {
+                                textArea.value += 'Temperature: ' + temperature/100.0 + ' °C\n';
                             },
-                            function(error) {
-                                textArea.value += 'Error: '+error+'\n';
+                            function (error) {
+                                textArea.value += 'Error: ' + error + '\n';
                             }
                         );
                     }

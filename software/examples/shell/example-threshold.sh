@@ -1,15 +1,17 @@
 #!/bin/sh
-# connects to localhost:4223 by default, use --host and --port to change it
+# Connects to localhost:4223 by default, use --host and --port to change this
 
-# change to your UID
-uid=XYZ
+uid=XYZ # Change to your UID
 
-# get threshold callbacks with a debounce time of 10 seconds (10000ms)
+# Get threshold callbacks with a debounce time of 10 seconds (10000ms)
 tinkerforge call ptc-bricklet $uid set-debounce-period 10000
 
-# configure threshold for "greater than 30 °C" (unit is °C/100)
+# Handle incoming temperature reached callbacks (parameter has unit °C/100)
+tinkerforge dispatch ptc-bricklet $uid temperature-reached &
+
+# Configure threshold for temperature "greater than 30 °C" (unit is °C/100)
 tinkerforge call ptc-bricklet $uid set-temperature-callback-threshold greater 3000 0
 
-# handle incoming temperature-reached callbacks (unit is °C/100)
-tinkerforge dispatch ptc-bricklet $uid temperature-reached\
- --execute "echo We have {temperature} °C/100. It is too hot, we need air conditioning!"
+echo "Press key to exit"; read dummy
+
+kill -- -$$ # Stop callback dispatch in background

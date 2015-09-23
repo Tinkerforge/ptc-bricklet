@@ -1,8 +1,7 @@
 #!/bin/sh
-# connects to localhost:4223 by default, use --host and --port to change it
+# Connects to localhost:4223 by default, use --host and --port to change this
 
-# change to your UID
-uid=XYZ
+uid=XYZ # Change to your UID
 
-# get current temperature (unit is °C/100)
+# Get current temperature (unit is °C/100)
 tinkerforge call ptc-bricklet $uid get-temperature

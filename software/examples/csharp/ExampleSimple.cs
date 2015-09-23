@@ -1,3 +1,4 @@
+using System;
 using Tinkerforge;
 
 class Example
@@ -16,10 +17,10 @@ class Example
 
 		// Get current temperature (unit is °C/100)
 		int temperature = ptc.GetTemperature();
-		System.Console.WriteLine("Temperature: " + temperature/100.0 + " °C");
+		Console.WriteLine("Temperature: " + temperature/100.0 + " °C");
 
-		System.Console.WriteLine("Press enter to exit");
-		System.Console.ReadLine();
+		Console.WriteLine("Press enter to exit");
+		Console.ReadLine();
 		ipcon.Disconnect();
 	}
 }

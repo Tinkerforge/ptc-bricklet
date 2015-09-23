@@ -10,7 +10,7 @@ from tinkerforge.bricklet_ptc import BrickletPTC
 
 # Callback function for temperature callback (parameter has unit °C/100)
 def cb_temperature(temperature):
-    print('Temperature: ' + str(temperature/100.0) + ' °C')
+    print("Temperature: " + str(temperature/100.0) + " °C")
 
 if __name__ == "__main__":
     ipcon = IPConnection() # Create IP connection
@@ -19,13 +19,13 @@ if __name__ == "__main__":
     ipcon.connect(HOST, PORT) # Connect to brickd
     # Don't use device before ipcon is connected
 
+    # Register temperature callback to function cb_temperature
+    ptc.register_callback(ptc.CALLBACK_TEMPERATURE, cb_temperature)
+
     # Set period for temperature callback to 1s (1000ms)
     # Note: The temperature callback is only called every second
     #       if the temperature has changed since the last call!
     ptc.set_temperature_callback_period(1000)
 
-    # Register temperature callback to function cb_temperature
-    ptc.register_callback(ptc.CALLBACK_TEMPERATURE, cb_temperature)
-
-    raw_input('Press key to exit\n') # Use input() in Python 3
+    raw_input("Press key to exit\n") # Use input() in Python 3
     ipcon.disconnect()

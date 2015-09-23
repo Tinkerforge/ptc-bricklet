@@ -4,8 +4,8 @@ function matlab_example_simple()
 
     HOST = 'localhost';
     PORT = 4223;
-    UID = 'i4G'; % Change to your UID
-    
+    UID = 'XYZ'; % Change to your UID
+
     ipcon = IPConnection(); % Create IP connection
     ptc = BrickletPTC(UID, ipcon); % Create device object
 
@@ -16,6 +16,6 @@ function matlab_example_simple()
     temperature = ptc.getTemperature();
     fprintf('Temperature: %g °C\n', temperature/100.0);
 
-    input('Press any key to exit...\n', 's');
+    input('Press key to exit\n', 's');
     ipcon.disconnect();
 end

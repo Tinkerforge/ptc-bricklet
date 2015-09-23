@@ -30,16 +30,16 @@ int main(void) {
 	}
 	// Don't use device before ipcon is connected
 
-	// Set period for temperature callback to 1s (1000ms)
-	// Note: The temperature callback is only called every second
-	//       if the temperature has changed since the last call!
-	ptc_set_temperature_callback_period(&ptc, 1000);
-
 	// Register temperature callback to function cb_temperature
 	ptc_register_callback(&ptc,
 	                      PTC_CALLBACK_TEMPERATURE,
 	                      (void *)cb_temperature,
 	                      NULL);
+
+	// Set period for temperature callback to 1s (1000ms)
+	// Note: The temperature callback is only called every second
+	//       if the temperature has changed since the last call!
+	ptc_set_temperature_callback_period(&ptc, 1000);
 
 	printf("Press key to exit\n");
 	getchar();
