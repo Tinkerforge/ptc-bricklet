@@ -43,6 +43,7 @@ int main(void) {
 
 	printf("Press key to exit\n");
 	getchar();
+	ptc_destroy(&ptc);
 	ipcon_destroy(&ipcon); // Calls ipcon_disconnect internally
 	return 0;
 }
