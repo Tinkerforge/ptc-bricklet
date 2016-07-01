@@ -4,7 +4,7 @@ Imports Tinkerforge
 Module ExampleThreshold
     Const HOST As String = "localhost"
     Const PORT As Integer = 4223
-    Const UID As String = "XYZ" ' Change to your UID
+    Const UID As String = "XYZ" ' Change XYZ to the UID of your PTC Bricklet
 
     ' Callback subroutine for temperature reached callback (parameter has unit °C/100)
     Sub TemperatureReachedCB(ByVal sender As BrickletPTC, ByVal temperature As Integer)

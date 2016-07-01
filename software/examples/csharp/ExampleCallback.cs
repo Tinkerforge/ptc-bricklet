@@ -5,7 +5,7 @@ class Example
 {
 	private static string HOST = "localhost";
 	private static int PORT = 4223;
-	private static string UID = "XYZ"; // Change to your UID
+	private static string UID = "XYZ"; // Change XYZ to the UID of your PTC Bricklet
 
 	// Callback function for temperature callback (parameter has unit °C/100)
 	static void TemperatureCB(BrickletPTC sender, int temperature)

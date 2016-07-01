@@ -8,7 +8,7 @@ use Tinkerforge\BrickletPTC;
 
 const HOST = 'localhost';
 const PORT = 4223;
-const UID = 'XYZ'; // Change to your UID
+const UID = 'XYZ'; // Change XYZ to the UID of your PTC Bricklet
 
 $ipcon = new IPConnection(); // Create IP connection
 $ptc = new BrickletPTC(UID, $ipcon); // Create device object

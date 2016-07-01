@@ -5,7 +5,7 @@ use Tinkerforge::BrickletPTC;
 
 use constant HOST => 'localhost';
 use constant PORT => 4223;
-use constant UID => 'XYZ'; # Change to your UID
+use constant UID => 'XYZ'; # Change XYZ to the UID of your PTC Bricklet
 
 # Callback subroutine for temperature callback (parameter has unit °C/100)
 sub cb_temperature

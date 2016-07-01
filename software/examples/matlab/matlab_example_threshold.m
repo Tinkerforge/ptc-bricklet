@@ -4,7 +4,7 @@ function matlab_example_threshold()
 
     HOST = 'localhost';
     PORT = 4223;
-    UID = 'XYZ'; % Change to your UID
+    UID = 'XYZ'; % Change XYZ to the UID of your PTC Bricklet
 
     ipcon = IPConnection(); % Create IP connection
     ptc = handle(BrickletPTC(UID, ipcon), 'CallbackProperties'); % Create device object

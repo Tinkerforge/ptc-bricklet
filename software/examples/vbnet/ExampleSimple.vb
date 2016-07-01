@@ -4,7 +4,7 @@ Imports Tinkerforge
 Module ExampleSimple
     Const HOST As String = "localhost"
     Const PORT As Integer = 4223
-    Const UID As String = "XYZ" ' Change to your UID
+    Const UID As String = "XYZ" ' Change XYZ to the UID of your PTC Bricklet
 
     Sub Main()
         Dim ipcon As New IPConnection() ' Create IP connection

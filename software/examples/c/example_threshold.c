@@ -5,7 +5,7 @@
 
 #define HOST "localhost"
 #define PORT 4223
-#define UID "XYZ" // Change to your UID
+#define UID "XYZ" // Change XYZ to the UID of your PTC Bricklet
 
 // Callback function for temperature reached callback (parameter has unit °C/100)
 void cb_temperature_reached(int32_t temperature, void *user_data) {

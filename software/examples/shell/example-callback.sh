@@ -1,7 +1,7 @@
 #!/bin/sh
 # Connects to localhost:4223 by default, use --host and --port to change this
 
-uid=XYZ # Change to your UID
+uid=XYZ # Change XYZ to the UID of your PTC Bricklet
 
 # Handle incoming temperature callbacks (parameter has unit °C/100)
 tinkerforge dispatch ptc-bricklet $uid temperature &

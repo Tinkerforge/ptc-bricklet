@@ -8,7 +8,7 @@ use Tinkerforge\BrickletPTC;
 
 const HOST = 'localhost';
 const PORT = 4223;
-const UID = 'XYZ'; // Change to your UID
+const UID = 'XYZ'; // Change XYZ to the UID of your PTC Bricklet
 
 // Callback function for temperature reached callback (parameter has unit °C/100)
 function cb_temperatureReached($temperature)
@@ -26,7 +26,8 @@ $ipcon->connect(HOST, PORT); // Connect to brickd
 $ptc->setDebouncePeriod(10000);
 
 // Register temperature reached callback to function cb_temperatureReached
-$ptc->registerCallback(BrickletPTC::CALLBACK_TEMPERATURE_REACHED, 'cb_temperatureReached');
+$ptc->registerCallback(BrickletPTC::CALLBACK_TEMPERATURE_REACHED,
+                       'cb_temperatureReached');
 
 // Configure threshold for temperature "greater than 30 °C" (unit is °C/100)
 $ptc->setTemperatureCallbackThreshold('>', 30*100, 0);

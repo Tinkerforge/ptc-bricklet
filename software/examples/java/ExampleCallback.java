@@ -4,7 +4,9 @@ import com.tinkerforge.BrickletPTC;
 public class ExampleCallback {
 	private static final String HOST = "localhost";
 	private static final int PORT = 4223;
-	private static final String UID = "XYZ"; // Change to your UID
+
+	// Change XYZ to the UID of your PTC Bricklet
+	private static final String UID = "XYZ";
 
 	// Note: To make the example code cleaner we do not handle exceptions. Exceptions
 	//       you might normally want to catch are described in the documentation
