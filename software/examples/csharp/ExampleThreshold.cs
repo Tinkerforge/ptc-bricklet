@@ -25,7 +25,7 @@ class Example
 		ptc.SetDebouncePeriod(10000);
 
 		// Register temperature reached callback to function TemperatureReachedCB
-		ptc.TemperatureReached += TemperatureReachedCB;
+		ptc.TemperatureReachedCallback += TemperatureReachedCB;
 
 		// Configure threshold for temperature "greater than 30 °C" (unit is °C/100)
 		ptc.SetTemperatureCallbackThreshold('>', 30*100, 0);

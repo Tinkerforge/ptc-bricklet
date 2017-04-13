@@ -22,7 +22,7 @@ class Example
 		// Don't use device before ipcon is connected
 
 		// Register temperature callback to function TemperatureCB
-		ptc.Temperature += TemperatureCB;
+		ptc.TemperatureCallback += TemperatureCB;
 
 		// Set period for temperature callback to 1s (1000ms)
 		// Note: The temperature callback is only called every second
