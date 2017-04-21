@@ -10,7 +10,7 @@ tinkerforge call ptc-bricklet $uid set-debounce-period 10000
 tinkerforge dispatch ptc-bricklet $uid temperature-reached &
 
 # Configure threshold for temperature "greater than 30 °C" (unit is °C/100)
-tinkerforge call ptc-bricklet $uid set-temperature-callback-threshold greater 3000 0
+tinkerforge call ptc-bricklet $uid set-temperature-callback-threshold threshold-option-greater 3000 0
 
 echo "Press key to exit"; read dummy
 
