@@ -5,8 +5,8 @@ function octave_example_threshold()
     PORT = 4223;
     UID = "XYZ"; % Change XYZ to the UID of your PTC Bricklet
 
-    ipcon = java_new("com.tinkerforge.IPConnection"); % Create IP connection
-    ptc = java_new("com.tinkerforge.BrickletPTC", UID, ipcon); % Create device object
+    ipcon = javaObject("com.tinkerforge.IPConnection"); % Create IP connection
+    ptc = javaObject("com.tinkerforge.BrickletPTC", UID, ipcon); % Create device object
 
     ipcon.connect(HOST, PORT); % Connect to brickd
     % Don't use device before ipcon is connected
