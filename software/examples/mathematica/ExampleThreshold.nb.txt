@@ -16,7 +16,7 @@ ptc@SetDebouncePeriod[10000]
 (*Callback function for temperature reached callback (parameter has unit °C/100)*)
 TemperatureReachedCB[sender_,temperature_]:=
  Print["Temperature: "<>ToString[N[Quantity[temperature,"°C/100"]]]]
-AddEventHandler[ptc@TemperatureReached,TemperatureReachedCB]
+AddEventHandler[ptc@TemperatureReachedCallback,TemperatureReachedCB]
 
 (*Configure threshold for temperature "greater than 30 °C" (unit is °C/100)*)
 option=Tinkerforge`BrickletPTC`THRESHOLDUOPTIONUGREATER

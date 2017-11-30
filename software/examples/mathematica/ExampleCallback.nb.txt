@@ -13,7 +13,7 @@ ipcon@Connect[host,port]
 (*Callback function for temperature callback (parameter has unit °C/100)*)
 TemperatureCB[sender_,temperature_]:=
  Print["Temperature: "<>ToString[N[Quantity[temperature,"°C/100"]]]]
-AddEventHandler[ptc@Temperature,TemperatureCB]
+AddEventHandler[ptc@TemperatureCallback,TemperatureCB]
 
 (*Set period for temperature callback to 1s (1000ms)*)
 (*Note: The temperature callback is only called every second*)

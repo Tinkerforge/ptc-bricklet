@@ -22,7 +22,7 @@ Module ExampleThreshold
         ptc.SetDebouncePeriod(10000)
 
         ' Register temperature reached callback to subroutine TemperatureReachedCB
-        AddHandler ptc.TemperatureReached, AddressOf TemperatureReachedCB
+        AddHandler ptc.TemperatureReachedCallback, AddressOf TemperatureReachedCB
 
         ' Configure threshold for temperature "greater than 30 °C" (unit is °C/100)
         ptc.SetTemperatureCallbackThreshold(">"C, 30*100, 0)

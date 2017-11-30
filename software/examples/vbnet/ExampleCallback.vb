@@ -19,7 +19,7 @@ Module ExampleCallback
         ' Don't use device before ipcon is connected
 
         ' Register temperature callback to subroutine TemperatureCB
-        AddHandler ptc.Temperature, AddressOf TemperatureCB
+        AddHandler ptc.TemperatureCallback, AddressOf TemperatureCB
 
         ' Set period for temperature callback to 1s (1000ms)
         ' Note: The temperature callback is only called every second
