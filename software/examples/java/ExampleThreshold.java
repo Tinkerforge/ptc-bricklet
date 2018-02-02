@@ -20,14 +20,14 @@ public class ExampleThreshold {
 		// Get threshold callbacks with a debounce time of 10 seconds (10000ms)
 		ptc.setDebouncePeriod(10000);
 
-		// Add temperature reached listener (parameter has unit °C/100)
+		// Add temperature reached listener
 		ptc.addTemperatureReachedListener(new BrickletPTC.TemperatureReachedListener() {
 			public void temperatureReached(int temperature) {
 				System.out.println("Temperature: " + temperature/100.0 + " °C");
 			}
 		});
 
-		// Configure threshold for temperature "greater than 30 °C" (unit is °C/100)
+		// Configure threshold for temperature "greater than 30 °C"
 		ptc.setTemperatureCallbackThreshold('>', 30*100, 0);
 
 		System.out.println("Press key to exit"); System.in.read();

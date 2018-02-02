@@ -10,7 +10,7 @@ const HOST = 'localhost';
 const PORT = 4223;
 const UID = 'XYZ'; // Change XYZ to the UID of your PTC Bricklet
 
-// Callback function for temperature callback (parameter has unit °C/100)
+// Callback function for temperature callback
 function cb_temperature($temperature)
 {
     echo "Temperature: " . $temperature/100.0 . " °C\n";

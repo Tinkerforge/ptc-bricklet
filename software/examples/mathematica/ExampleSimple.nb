@@ -18,7 +18,7 @@ Notebook[{
    RowBox[{"ipcon", "@", RowBox[{"Connect", "[", RowBox[{"host", ",", "port"}], "]"}]}],
    RowBox[{"
 "}],
-   RowBox[{"(*", "Get current temperature (unit is \.b0C/100)", "*)"}],
+   RowBox[{"(*", "Get current temperature", "*)"}],
    RowBox[{"Print", "[", RowBox[{"\"\<Temperature: \>\"", "<>", RowBox[{"ToString", "[", RowBox[{"N", "[", RowBox[{"Quantity", "[", RowBox[{RowBox[{"ptc", "@", RowBox[{"GetTemperature", "[", "]"}]}], ",", "\"\<\.b0C/100\>\""}], "]"}], "]"}], "]"}]}], "]"}],
    RowBox[{"
 "}],

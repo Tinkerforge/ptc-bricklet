@@ -6,7 +6,7 @@ Module ExampleCallback
     Const PORT As Integer = 4223
     Const UID As String = "XYZ" ' Change XYZ to the UID of your PTC Bricklet
 
-    ' Callback subroutine for temperature callback (parameter has unit °C/100)
+    ' Callback subroutine for temperature callback
     Sub TemperatureCB(ByVal sender As BrickletPTC, ByVal temperature As Integer)
         Console.WriteLine("Temperature: " + (temperature/100.0).ToString() + " °C")
     End Sub

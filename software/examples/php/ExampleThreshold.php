@@ -10,7 +10,7 @@ const HOST = 'localhost';
 const PORT = 4223;
 const UID = 'XYZ'; // Change XYZ to the UID of your PTC Bricklet
 
-// Callback function for temperature reached callback (parameter has unit °C/100)
+// Callback function for temperature reached callback
 function cb_temperatureReached($temperature)
 {
     echo "Temperature: " . $temperature/100.0 . " °C\n";
@@ -29,7 +29,7 @@ $ptc->setDebouncePeriod(10000);
 $ptc->registerCallback(BrickletPTC::CALLBACK_TEMPERATURE_REACHED,
                        'cb_temperatureReached');
 
-// Configure threshold for temperature "greater than 30 °C" (unit is °C/100)
+// Configure threshold for temperature "greater than 30 °C"
 $ptc->setTemperatureCallbackThreshold('>', 30*100, 0);
 
 echo "Press ctrl+c to exit\n";

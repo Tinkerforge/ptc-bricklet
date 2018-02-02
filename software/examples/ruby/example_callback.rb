@@ -16,7 +16,7 @@ ptc = BrickletPTC.new UID, ipcon # Create device object
 ipcon.connect HOST, PORT # Connect to brickd
 # Don't use device before ipcon is connected
 
-# Register temperature callback (parameter has unit °C/100)
+# Register temperature callback
 ptc.register_callback(BrickletPTC::CALLBACK_TEMPERATURE) do |temperature|
   puts "Temperature: #{temperature/100.0} °C"
 end

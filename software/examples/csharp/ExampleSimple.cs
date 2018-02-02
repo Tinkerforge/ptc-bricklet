@@ -15,7 +15,7 @@ class Example
 		ipcon.Connect(HOST, PORT); // Connect to brickd
 		// Don't use device before ipcon is connected
 
-		// Get current temperature (unit is °C/100)
+		// Get current temperature
 		int temperature = ptc.GetTemperature();
 		Console.WriteLine("Temperature: " + temperature/100.0 + " °C");
 

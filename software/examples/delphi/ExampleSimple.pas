@@ -36,7 +36,7 @@ begin
   ipcon.Connect(HOST, PORT);
   { Don't use device before ipcon is connected }
 
-  { Get current temperature (unit is °C/100) }
+  { Get current temperature }
   temperature := ptc.GetTemperature;
   WriteLn(Format('Temperature: %f °C', [temperature/100.0]));
 

@@ -7,7 +7,7 @@ class Example
 	private static int PORT = 4223;
 	private static string UID = "XYZ"; // Change XYZ to the UID of your PTC Bricklet
 
-	// Callback function for temperature reached callback (parameter has unit °C/100)
+	// Callback function for temperature reached callback
 	static void TemperatureReachedCB(BrickletPTC sender, int temperature)
 	{
 		Console.WriteLine("Temperature: " + temperature/100.0 + " °C");
@@ -27,7 +27,7 @@ class Example
 		// Register temperature reached callback to function TemperatureReachedCB
 		ptc.TemperatureReachedCallback += TemperatureReachedCB;
 
-		// Configure threshold for temperature "greater than 30 °C" (unit is °C/100)
+		// Configure threshold for temperature "greater than 30 °C"
 		ptc.SetTemperatureCallbackThreshold('>', 30*100, 0);
 
 		Console.WriteLine("Press enter to exit");

@@ -17,7 +17,7 @@ public class ExampleCallback {
 		ipcon.connect(HOST, PORT); // Connect to brickd
 		// Don't use device before ipcon is connected
 
-		// Add temperature listener (parameter has unit °C/100)
+		// Add temperature listener
 		ptc.addTemperatureListener(new BrickletPTC.TemperatureListener() {
 			public void temperature(int temperature) {
 				System.out.println("Temperature: " + temperature/100.0 + " °C");

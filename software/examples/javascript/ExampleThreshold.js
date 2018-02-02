@@ -19,14 +19,14 @@ ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
         // Get threshold callbacks with a debounce time of 10 seconds (10000ms)
         ptc.setDebouncePeriod(10000);
 
-        // Configure threshold for temperature "greater than 30 °C" (unit is °C/100)
+        // Configure threshold for temperature "greater than 30 °C"
         ptc.setTemperatureCallbackThreshold('>', 30*100, 0);
     }
 );
 
 // Register temperature reached callback
 ptc.on(Tinkerforge.BrickletPTC.CALLBACK_TEMPERATURE_REACHED,
-    // Callback function for temperature reached callback (parameter has unit °C/100)
+    // Callback function for temperature reached callback
     function (temperature) {
         console.log('Temperature: ' + temperature/100.0 + ' °C');
     }

@@ -24,7 +24,7 @@ const
 var
   e: TExample;
 
-{ Callback procedure for temperature reached callback (parameter has unit °C/100) }
+{ Callback procedure for temperature reached callback }
 procedure TExample.TemperatureReachedCB(sender: TBrickletPTC; const temperature: longint);
 begin
   WriteLn(Format('Temperature: %f °C', [temperature/100.0]));
@@ -48,7 +48,7 @@ begin
   { Register temperature reached callback to procedure TemperatureReachedCB }
   ptc.OnTemperatureReached := {$ifdef FPC}@{$endif}TemperatureReachedCB;
 
-  { Configure threshold for temperature "greater than 30 °C" (unit is °C/100) }
+  { Configure threshold for temperature "greater than 30 °C" }
   ptc.SetTemperatureCallbackThreshold('>', 30*100, 0);
 
   WriteLn('Press key to exit');

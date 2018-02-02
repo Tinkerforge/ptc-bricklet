@@ -22,12 +22,12 @@ Notebook[{
    RowBox[{"ptc", "@", RowBox[{"SetDebouncePeriod", "[", "10000", "]"}]}],
    RowBox[{"
 "}],
-   RowBox[{"(*", "Callback function for temperature reached callback (parameter has unit \.b0C/100)", "*)"}],
+   RowBox[{"(*", "Callback function for temperature reached callback", "*)"}],
    RowBox[{RowBox[{"TemperatureReachedCB", "[", RowBox[{"sender_", ",", "temperature_"}], "]"}], ":=", "\[IndentingNewLine]", RowBox[{"Print", "[", RowBox[{"\"\<Temperature: \>\"", "<>", RowBox[{"ToString", "[", RowBox[{"N", "[", RowBox[{"Quantity", "[", RowBox[{"temperature", ",", "\"\<\.b0C/100\>\""}], "]"}], "]"}], "]"}]}], "]"}]}],
    RowBox[{"AddEventHandler", "[", RowBox[{RowBox[{"ptc", "@", "TemperatureReachedCallback"}], ",", "TemperatureReachedCB"}], "]"}],
    RowBox[{"
 "}],
-   RowBox[{"(*", "Configure threshold for temperature ", "\"\<greater than 30 \.b0C\>\"", " (unit is \.b0C/100)", "*)"}],
+   RowBox[{"(*", "Configure threshold for temperature ", "\"\<greater than 30 \.b0C\>\"", "", "*)"}],
    RowBox[{"option", "=", "Tinkerforge`BrickletPTC`THRESHOLDUOPTIONUGREATER"}],
    RowBox[{"ptc", "@", RowBox[{"SetTemperatureCallbackThreshold", "[", RowBox[{"option", ",", RowBox[{"30", "*", "100"}], ",", "0"}], "]"}]}],
    RowBox[{"

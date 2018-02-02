@@ -13,7 +13,7 @@ my $ptc = Tinkerforge::BrickletPTC->new(&UID, $ipcon); # Create device object
 $ipcon->connect(&HOST, &PORT); # Connect to brickd
 # Don't use device before ipcon is connected
 
-# Get current temperature (unit is °C/100)
+# Get current temperature
 my $temperature = $ptc->get_temperature();
 print "Temperature: " . $temperature/100.0 . " °C\n";
 

@@ -25,7 +25,7 @@ ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
 
 // Register temperature callback
 ptc.on(Tinkerforge.BrickletPTC.CALLBACK_TEMPERATURE,
-    // Callback function for temperature callback (parameter has unit °C/100)
+    // Callback function for temperature callback
     function (temperature) {
         console.log('Temperature: ' + temperature/100.0 + ' °C');
     }

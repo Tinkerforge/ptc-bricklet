@@ -41,7 +41,7 @@
 
                 ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
                     function (connectReason) {
-                        // Get current temperature (unit is °C/100)
+                        // Get current temperature
                         ptc.getTemperature(
                             function (temperature) {
                                 textArea.value += 'Temperature: ' + temperature/100.0 + ' °C\n';

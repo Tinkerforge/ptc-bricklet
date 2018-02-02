@@ -16,7 +16,7 @@ ipcon.connect(HOST, PORT,
 
 ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
     function (connectReason) {
-        // Get current temperature (unit is °C/100)
+        // Get current temperature
         ptc.getTemperature(
             function (temperature) {
                 console.log('Temperature: ' + temperature/100.0 + ' °C');

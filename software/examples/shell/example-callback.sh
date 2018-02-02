@@ -3,7 +3,7 @@
 
 uid=XYZ # Change XYZ to the UID of your PTC Bricklet
 
-# Handle incoming temperature callbacks (parameter has unit °C/100)
+# Handle incoming temperature callbacks
 tinkerforge dispatch ptc-bricklet $uid temperature &
 
 # Set period for temperature callback to 1s (1000ms)

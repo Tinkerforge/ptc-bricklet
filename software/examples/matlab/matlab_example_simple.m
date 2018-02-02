@@ -12,7 +12,7 @@ function matlab_example_simple()
     ipcon.connect(HOST, PORT); % Connect to brickd
     % Don't use device before ipcon is connected
 
-    % Get current temperature (unit is °C/100)
+    % Get current temperature
     temperature = ptc.getTemperature();
     fprintf('Temperature: %g °C\n', temperature/100.0);
 

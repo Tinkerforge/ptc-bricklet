@@ -7,7 +7,7 @@
 #define PORT 4223
 #define UID "XYZ" // Change XYZ to the UID of your PTC Bricklet
 
-// Callback function for temperature reached callback (parameter has unit °C/100)
+// Callback function for temperature reached callback
 void cb_temperature_reached(int32_t temperature, void *user_data) {
 	(void)user_data; // avoid unused parameter warning
 
@@ -39,7 +39,7 @@ int main(void) {
 	                      (void *)cb_temperature_reached,
 	                      NULL);
 
-	// Configure threshold for temperature "greater than 30 °C" (unit is °C/100)
+	// Configure threshold for temperature "greater than 30 °C"
 	ptc_set_temperature_callback_threshold(&ptc, '>', 30*100, 0);
 
 	printf("Press key to exit\n");

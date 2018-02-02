@@ -15,7 +15,7 @@ if __name__ == "__main__":
     ipcon.connect(HOST, PORT) # Connect to brickd
     # Don't use device before ipcon is connected
 
-    # Get current temperature (unit is °C/100)
+    # Get current temperature
     temperature = ptc.get_temperature()
     print("Temperature: " + str(temperature/100.0) + " °C")
 

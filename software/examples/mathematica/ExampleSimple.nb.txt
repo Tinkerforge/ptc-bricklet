@@ -10,7 +10,7 @@ ipcon=NETNew["Tinkerforge.IPConnection"]
 ptc=NETNew["Tinkerforge.BrickletPTC",uid,ipcon]
 ipcon@Connect[host,port]
 
-(*Get current temperature (unit is °C/100)*)
+(*Get current temperature*)
 Print["Temperature: "<>ToString[N[Quantity[ptc@GetTemperature[],"°C/100"]]]]
 
 (*Clean up*)

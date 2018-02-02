@@ -50,7 +50,7 @@
 
                 // Register temperature callback
                 ptc.on(Tinkerforge.BrickletPTC.CALLBACK_TEMPERATURE,
-                    // Callback function for temperature callback (parameter has unit °C/100)
+                    // Callback function for temperature callback
                     function (temperature) {
                         textArea.value += 'Temperature: ' + temperature/100.0 + ' °C\n';
                         textArea.scrollTop = textArea.scrollHeight;

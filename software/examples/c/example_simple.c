@@ -23,7 +23,7 @@ int main(void) {
 	}
 	// Don't use device before ipcon is connected
 
-	// Get current temperature (unit is °C/100)
+	// Get current temperature
 	int32_t temperature;
 	if(ptc_get_temperature(&ptc, &temperature) < 0) {
 		fprintf(stderr, "Could not get temperature, probably timeout\n");

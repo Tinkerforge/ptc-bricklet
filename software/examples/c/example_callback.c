@@ -7,7 +7,7 @@
 #define PORT 4223
 #define UID "XYZ" // Change XYZ to the UID of your PTC Bricklet
 
-// Callback function for temperature callback (parameter has unit °C/100)
+// Callback function for temperature callback
 void cb_temperature(int32_t temperature, void *user_data) {
 	(void)user_data; // avoid unused parameter warning
 
