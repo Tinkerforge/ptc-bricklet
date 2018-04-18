@@ -106,6 +106,17 @@ void invocation(const ComType com, const uint8_t *data) {
 			return;
 		}
 
+		case FID_SET_SENSOR_CONNECTED_CALLBACK_CONFIGURATION: {
+			set_sensor_connected_callback_configuration(com, (SetSensorConnectedCallbackConfiguration*)data);
+			return;
+		}
+
+		case FID_GET_SENSOR_CONNECTED_CALLBACK_CONFIGURATION: {
+			get_sensor_connected_callback_configuration(com, (GetSensorConnectedCallbackConfiguration*)data);
+			return;
+		}
+
+
 		default: {
 			simple_invocation(com, data);
 			break;
@@ -145,6 +156,8 @@ void constructor(void) {
 	BC->new_resistance = false;
 	BC->noise_filter = 0;
 	BC->wire_mode = 2;
+	BC->sensor_connected_callback_enabled = false;
+	BC->last_fault = 1;
 
 	simple_constructor();
 
@@ -269,6 +282,19 @@ int32_t make_temperature(const int32_t value) {
 
 void tick(const uint8_t tick_type) {
 	simple_tick(tick_type);
+
+	if(tick_type == TICK_TASK_TYPE_MESSAGE) {
+		if(BC->sensor_connected_callback_enabled && (BC->fault != BC->last_fault)) {
+			BC->last_fault = BC->fault;
+			SensorConnectedCallback scc;
+			BA->com_make_default_header(&scc, BS->uid, sizeof(SensorConnectedCallback), FID_SENSOR_CONNECTED);
+			scc.connected = BC->last_fault == 0;
+
+			BA->send_blocking_with_timeout(&scc,
+			                               sizeof(SensorConnectedCallback),
+			                               *BA->com_current);
+		}
+	}
 }
 
 
@@ -343,4 +369,22 @@ void get_wire_mode(const ComType com, const GetWireMode *data) {
 
 	BA->send_blocking_with_timeout(&gwmr, sizeof(GetWireModeReturn), com);
 	logbli("get_wire_mode: %d\n\r", BC->wire_mode);
+}
+
+void set_sensor_connected_callback_configuration(const ComType com, const SetSensorConnectedCallbackConfiguration *data) {
+	BC->sensor_connected_callback_enabled = data->enabled;
+	BA->com_return_setter(com, data);
+	logbli("set_sensor_connected_callback_configuration: %d\n\r", BC->sensor_connected_callback_enabled);
+}
+
+void get_sensor_connected_callback_configuration(const ComType com, const GetSensorConnectedCallbackConfiguration *data) {
+	GetSensorConnectedCallbackConfigurationReturn gscccr;
+
+	gscccr.header        = data->header;
+	gscccr.header.length = sizeof(GetSensorConnectedCallbackConfigurationReturn);
+	gscccr.enabled       = BC->sensor_connected_callback_enabled;
+
+	BA->send_blocking_with_timeout(&gscccr, sizeof(GetSensorConnectedCallbackConfigurationReturn), com);
+	logbli("get_sensor_connected_callback_configuration: %d\n\r", BC->sensor_connected_callback_enabled);
+
 }

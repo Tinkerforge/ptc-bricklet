@@ -47,8 +47,11 @@
 #define FID_IS_SENSOR_CONNECTED 19
 #define FID_SET_WIRE_MODE 20
 #define FID_GET_WIRE_MODE 21
+#define FID_SET_SENSOR_CONNECTED_CALLBACK_CONFIGURATION 22
+#define FID_GET_SENSOR_CONNECTED_CALLBACK_CONFIGURATION 23
+#define FID_SENSOR_CONNECTED 24
 
-#define FID_LAST 21
+#define FID_LAST 23
 
 #define REG_WRITE          0x80
 
@@ -116,11 +119,32 @@ typedef struct {
 	uint8_t mode;
 } __attribute__((__packed__)) GetWireModeReturn;
 
+typedef struct {
+	MessageHeader header;
+	bool enabled;
+} __attribute__((__packed__)) SetSensorConnectedCallbackConfiguration;
+
+typedef struct {
+	MessageHeader header;
+} __attribute__((__packed__)) GetSensorConnectedCallbackConfiguration;
+
+typedef struct {
+	MessageHeader header;
+	bool enabled;
+} __attribute__((__packed__)) GetSensorConnectedCallbackConfigurationReturn;
+
+typedef struct {
+	MessageHeader header;
+	bool connected;
+} __attribute__((__packed__)) SensorConnectedCallback;
+
 void set_noise_rejection_filter(const ComType com, const SetNoiseRejectionFilter *data);
 void get_noise_rejection_filter(const ComType com, const GetNoiseRejectionFilter *data);
 void is_sensor_connected(const ComType com, const IsSensorConnected *data);
 void set_wire_mode(const ComType com, const SetWireMode *data);
 void get_wire_mode(const ComType com, const GetWireMode *data);
+void set_sensor_connected_callback_configuration(const ComType com, const SetSensorConnectedCallbackConfiguration *data);
+void get_sensor_connected_callback_configuration(const ComType com, const GetSensorConnectedCallbackConfiguration *data);
 
 
 uint8_t spibb_transceive_byte(const uint8_t value);

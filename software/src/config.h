@@ -30,7 +30,7 @@
 
 #define BRICKLET_FIRMWARE_VERSION_MAJOR 2
 #define BRICKLET_FIRMWARE_VERSION_MINOR 0
-#define BRICKLET_FIRMWARE_VERSION_REVISION 1
+#define BRICKLET_FIRMWARE_VERSION_REVISION 2
 
 #define BRICKLET_HARDWARE_VERSION_MAJOR 1
 #define BRICKLET_HARDWARE_VERSION_MINOR 0
@@ -83,6 +83,9 @@ typedef struct {
 	uint8_t fault;
 	uint8_t noise_filter;
 	uint8_t wire_mode;
+
+	uint8_t last_fault;
+	bool sensor_connected_callback_enabled;
 
 	bool new_resistance;
 } BrickContext;
