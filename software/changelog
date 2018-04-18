@@ -3,3 +3,6 @@
 
 2013-12-19: 2.0.1 (4f61aa6)
 - Fix wrong length for GetDebounce packet (through brickletlib)
+
+2018-04-18: 2.0.2 (42ef3e4)
+- Add implementation for SensorConnectedCallback API
