@@ -15,10 +15,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     // Get threshold receivers with a debounce time of 10 seconds (10000ms).
     ptc.set_debounce_period(10000);
 
-    // Create receiver for temperature reached events.
-    let temperature_reached_receiver = ptc.get_temperature_reached_receiver();
+    let temperature_reached_receiver = ptc.get_temperature_reached_callback_receiver();
 
-    // Spawn thread to handle received events. This thread ends when the `ptc` object
+    // Spawn thread to handle received callback messages.
+    // This thread ends when the `ptc` object
     // is dropped, so there is no need for manual cleanup.
     thread::spawn(move || {
         for temperature_reached in temperature_reached_receiver {
