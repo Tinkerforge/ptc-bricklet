@@ -19,7 +19,7 @@ func main() {
 	// Don't use device before ipcon is connected.
 
 	ptc.RegisterTemperatureCallback(func(temperature int32) {
-		fmt.Printf("Temperature: %d °C\n", float64(temperature)/100.0)
+		fmt.Printf("Temperature: %f °C\n", float64(temperature)/100.0)
 	})
 
 	// Set period for temperature receiver to 1s (1000ms).
