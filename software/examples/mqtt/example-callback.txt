@@ -1,0 +1,12 @@
+
+
+# Change XYZ to the UID of your PTC Bricklet
+
+setup:
+	# Handle incoming temperature callbacks
+	subscribe to tinkerforge/callback/ptc_bricklet/XYZ/temperature
+	publish '{"register": true}' to tinkerforge/register/ptc_bricklet/XYZ/temperature # Register temperature callback
+	# Set period for temperature callback to 1s (1000ms)
+	# Note: The temperature callback is only called every second
+	#       if the temperature has changed since the last call!
+	publish '{"period": 1000}' to tinkerforge/request/ptc_bricklet/XYZ/set_temperature_callback_period

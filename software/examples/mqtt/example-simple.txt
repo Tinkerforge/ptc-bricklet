@@ -1,0 +1,8 @@
+
+
+# Change XYZ to the UID of your PTC Bricklet
+
+setup:
+	# Get current temperature
+	subscribe to tinkerforge/response/ptc/XYZ/get_temperature
+	publish '' to tinkerforge/request/ptc_bricklet/XYZ/get_temperature 
