@@ -3,10 +3,10 @@
 setup:
 	# Get threshold callbacks with a debounce time of 10 seconds (10000ms)
 	publish '{"debounce": 10000}' to tinkerforge/request/ptc_bricklet/XYZ/set_debounce_period
-	
+
 	# Handle incoming temperature reached callbacks
 	subscribe to tinkerforge/callback/ptc_bricklet/XYZ/temperature_reached
 	publish '{"register": true}' to tinkerforge/register/ptc_bricklet/XYZ/temperature_reached # Register temperature_reached callback
-	
+
 	# Configure threshold for temperature "greater than 30 °C"
 	publish '{"option": "greater", "min": 3000, "max": 0}' to tinkerforge/request/ptc_bricklet/XYZ/set_temperature_callback_threshold
